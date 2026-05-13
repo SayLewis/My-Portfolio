@@ -22,23 +22,6 @@ html, body {
   height: 100%;
   background: var(--black);
   overflow: hidden;
-  cursor: none;
-}
-
-/* Restore default cursor on touch/pointer-coarse devices */
-@media (pointer: coarse) {
-  html, body { cursor: auto; }
-}
-
-/* Film-grain overlay */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
-  opacity: 0.045;
-  pointer-events: none;
-  z-index: 200;
 }
 
 /* ============================================================
@@ -57,6 +40,7 @@ body::after {
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  contain: strict;
 }
 
 /* ============================================================
@@ -68,6 +52,7 @@ body::after {
   height: 55px;
   opacity: 0;
   z-index: 20;
+  will-change: opacity;
 }
 
 .corner--tl {
@@ -97,11 +82,13 @@ body::after {
 .line {
   position: fixed;
   left: 50%;
-  transform: translateX(-50%);
   height: 1px;
-  width: 0;
+  width: 58vw;
   opacity: 0;
   z-index: 20;
+  transform: translate3d(-50%, 0, 0) scaleX(0);
+  transform-origin: center;
+  will-change: transform, opacity;
 }
 
 .line--top {
@@ -130,6 +117,9 @@ body::after {
   padding-bottom: 100px;
   padding-left: 24px;
   padding-right: 24px;
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 /* ============================================================
@@ -144,6 +134,7 @@ body::after {
   text-align: center;
   white-space: nowrap;
   position: relative;
+  text-shadow: 0 0 42px rgba(200, 169, 110, 0.16);
 }
 
 /* Character spans injected by JS */
@@ -185,35 +176,15 @@ body::after {
   opacity: 0;
 }
 
-/* ============================================================
-   CUSTOM CURSOR — hidden on touch devices
-   ============================================================ */
-#cursor-dot {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  background: var(--cream);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
-}
+@media (prefers-reduced-motion: reduce) {
+  #particles {
+    display: none;
+  }
 
-#cursor-ring {
-  position: fixed;
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(200, 169, 110, 0.5);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-}
-
-@media (pointer: coarse) {
-  #cursor-dot,
-  #cursor-ring { display: none; }
+  .stage,
+  .char {
+    will-change: auto;
+  }
 }
 
 /* ============================================================

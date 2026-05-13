@@ -9,7 +9,7 @@ const PROFILE = {
   title: 'IT Support Anaylst',
   bio: 'I Hate Copilot Studio',
   location: 'San Fernando, TT',
-  photo: '/assets/images/profile.jpg',          // absolute path — works from any page depth
+  photo: '/assets/images/profile-avatar.jpg',   // small avatar asset for faster loading
   links: [
     { label: 'Email',     href: 'mailto:nickelllewis1@gmail.com',                          icon: 'email'     },
     { label: 'GitHub',    href: 'https://github.com/SayLewis',                             icon: 'github'    },
@@ -19,6 +19,7 @@ const PROFILE = {
     { label: 'Resume',    href: '/assets/docs/Nickell_Lewis_Resume.pdf',                   icon: 'resume'    },
   ],
 };
+const navReduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ── SVG icon library ── */
 const ICONS = {
@@ -46,7 +47,8 @@ function getActivePage() {
 /* ── Avatar HTML ── */
 function avatarHTML(size) {
   if (PROFILE.photo) {
-    return `<img src="${PROFILE.photo}" alt="${PROFILE.name}" loading="lazy">`;
+    const px = size === 'large' ? 72 : 44;
+    return `<img src="${PROFILE.photo}" alt="${PROFILE.name}" loading="lazy" decoding="async" width="${px}" height="${px}">`;
   }
   return `<div class="${size === 'large' ? 'profile-card__avatar-fallback' : 'nav-avatar-fallback'}">${PROFILE.initials}</div>`;
 }
@@ -115,7 +117,15 @@ function initNav() {
     card.classList.add('open');
     gsap.fromTo(card,
       { opacity: 0, y: 24, scale: 0.96 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: 'back.out(1.4)' }
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: navReduceMotion ? 0 : 0.28,
+        ease: 'power3.out',
+        force3D: true,
+        overwrite: 'auto',
+      }
     );
   }
 
@@ -124,7 +134,9 @@ function initNav() {
     isOpen = false;
     gsap.to(card, {
       opacity: 0, y: 16, scale: 0.97,
-      duration: 0.22, ease: 'power2.in',
+      duration: navReduceMotion ? 0 : 0.18, ease: 'power2.in',
+      force3D: true,
+      overwrite: 'auto',
       onComplete: () => { overlay.classList.remove('open'); card.classList.remove('open'); }
     });
   }

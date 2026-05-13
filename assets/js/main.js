@@ -1,17 +1,4 @@
-/* ============================================================
-   CUSTOM CURSOR
-   ============================================================ */
-const dot  = document.getElementById('cursor-dot');
-const ring = document.getElementById('cursor-ring');
-let mx = innerWidth / 2;
-let my = innerHeight / 2;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX;
-  my = e.clientY;
-  gsap.to(dot,  { x: mx, y: my, duration: 0.08 });
-  gsap.to(ring, { x: mx, y: my, duration: 0.38, ease: 'power2.out' });
-});
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ============================================================
    PARTICLE SYSTEM
@@ -19,13 +6,20 @@ document.addEventListener('mousemove', e => {
 const canvas = document.getElementById('particles');
 const ctx    = canvas.getContext('2d');
 let W, H;
+const particleCount = reduceMotion ? 0 : Math.min(42, Math.max(18, Math.round((innerWidth * innerHeight) / 48000)));
 
 const resize = () => {
-  W = canvas.width  = innerWidth;
-  H = canvas.height = innerHeight;
+  const dpr = 1;
+  W = innerWidth;
+  H = innerHeight;
+  canvas.width = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width = `${W}px`;
+  canvas.style.height = `${H}px`;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 };
 resize();
-addEventListener('resize', resize);
+addEventListener('resize', resize, { passive: true });
 
 class Particle {
   constructor() { this.init(); }
@@ -33,26 +27,18 @@ class Particle {
   init() {
     this.x    = Math.random() * W;
     this.y    = Math.random() * H;
-    this.r    = Math.random() * 1.2 + 0.2;
-    this.vx   = (Math.random() - 0.5) * 0.25;
-    this.vy   = (Math.random() - 0.5) * 0.25 - 0.08;
-    this.a    = Math.random() * 0.35 + 0.05;
+    this.r    = Math.random() * 1 + 0.2;
+    this.vx   = (Math.random() - 0.5) * 0.16;
+    this.vy   = (Math.random() - 0.5) * 0.16 - 0.04;
+    this.a    = Math.random() * 0.28 + 0.05;
     this.life = Math.random() * 500;
     this.max  = Math.random() * 350 + 200;
+    this.color = `hsl(38, 45%, ${65 + Math.random() * 12}%)`;
   }
 
   step() {
-    const dx = mx - this.x;
-    const dy = my - this.y;
-    const d  = Math.sqrt(dx * dx + dy * dy);
-
-    if (d < 160) {
-      this.vx -= dx * 0.00018;
-      this.vy -= dy * 0.00018;
-    }
-
-    this.vx *= 0.995;
-    this.vy *= 0.995;
+    this.vx *= 0.998;
+    this.vy *= 0.998;
     this.x  += this.vx;
     this.y  += this.vy;
     this.life++;
@@ -66,27 +52,34 @@ class Particle {
     const t    = this.life / this.max;
     const fade = t < 0.1 ? t * 10 : t > 0.85 ? (1 - t) / 0.15 : 1;
 
-    ctx.save();
     ctx.globalAlpha = this.a * fade;
-    ctx.fillStyle   = `hsl(38, 45%, ${65 + Math.random() * 12}%)`;
+    ctx.fillStyle   = this.color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
     ctx.fill();
-    ctx.restore();
   }
 }
 
-const pts = Array.from({ length: 130 }, () => {
+const pts = Array.from({ length: particleCount }, () => {
   const p = new Particle();
   p.life = Math.random() * p.max;
   return p;
 });
 
-(function loop() {
-  ctx.clearRect(0, 0, W, H);
-  pts.forEach(p => { p.step(); p.draw(); });
-  requestAnimationFrame(loop);
-})();
+if (pts.length) {
+  (function loop() {
+    if (!document.hidden) {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < pts.length; i++) {
+        pts[i].step();
+        pts[i].draw();
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    requestAnimationFrame(loop);
+  })();
+}
 
 /* ============================================================
    TEXT SPLIT — character-by-character spans
@@ -119,14 +112,16 @@ tl.to(chars.filter(c => !c.classList.contains('char--space')), {
   duration: 0.7,
   stagger: { each: 0.055, ease: 'power2.out' },
   ease: 'back.out(1.6)',
+  force3D: true,
 })
 // 2 — Accent lines sweep outward
 .to(['.line--top', '.line--bottom'], {
-  width: '58vw',
+  scaleX: 1,
   opacity: 1,
   duration: 1.1,
   stagger: 0.12,
   ease: 'power3.inOut',
+  force3D: true,
 }, '-=0.5')
 // 3 — Corner brackets
 .to('.corner', {
@@ -142,36 +137,34 @@ tl.to(chars.filter(c => !c.classList.contains('char--space')), {
   ease: 'power2.out',
 }, '-=0.3')
 // 5 — Caret appears
-.to(caret, { opacity: 1, duration: 0.05 });
+.to(caret, { opacity: 1, duration: 0.05 })
+.call(() => {
+  document.querySelectorAll('.char, .line, .corner').forEach(el => {
+    el.style.willChange = 'auto';
+  });
+});
 
 /* ── Ambient loops (start after intro finishes) ── */
 
 // Caret blink
-gsap.to(caret, {
-  opacity: 0,
-  duration: 0.55,
-  repeat: -1,
-  yoyo: true,
-  ease: 'steps(1)',
-  delay: 3.2,
-});
+if (!reduceMotion) {
+  gsap.to(caret, {
+    opacity: 0,
+    duration: 0.55,
+    repeat: -1,
+    yoyo: true,
+    ease: 'steps(1)',
+    delay: 3.2,
+  });
 
-// Text glow breathe
-gsap.to('#mainText', {
-  textShadow: '0 0 100px rgba(200,169,110,0.28)',
-  duration: 3.5,
-  repeat: -1,
-  yoyo: true,
-  ease: 'sine.inOut',
-  delay: 3,
-});
-
-// Stage float
-gsap.to('.stage', {
-  y: -10,
-  duration: 4.5,
-  repeat: -1,
-  yoyo: true,
-  ease: 'sine.inOut',
-  delay: 2,
-});
+  // Stage float stays on transform only, which is cheap for the compositor.
+  gsap.to('.stage', {
+    y: -10,
+    duration: 4.5,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    delay: 2,
+    force3D: true,
+  });
+}
