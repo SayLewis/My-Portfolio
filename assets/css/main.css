@@ -1,0 +1,271 @@
+/* ============================================================
+   RESET & ROOT VARIABLES
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --black:  #000000;
+  --cream:  #f0e8d8;
+  --gold:   #c8a96e;
+  --dim:    rgba(200, 169, 110, 0.18);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+  overflow: hidden;
+  cursor: none;
+}
+
+/* Restore default cursor on touch/pointer-coarse devices */
+@media (pointer: coarse) {
+  html, body { cursor: auto; }
+}
+
+/* Film-grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* ============================================================
+   OVERLAY LAYERS
+   ============================================================ */
+.vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, transparent 35%, rgba(0,0,0,0.92) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   CORNER BRACKETS
+   ============================================================ */
+.corner {
+  position: fixed;
+  width: 55px;
+  height: 55px;
+  opacity: 0;
+  z-index: 20;
+}
+
+.corner--tl {
+  top: 36px; left: 36px;
+  border-top: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+}
+.corner--tr {
+  top: 36px; right: 36px;
+  border-top: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+}
+.corner--bl {
+  bottom: 36px; left: 36px;
+  border-bottom: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+}
+.corner--br {
+  bottom: 36px; right: 36px;
+  border-bottom: 1px solid var(--gold);
+  border-right: 1px solid var(--gold);
+}
+
+/* ============================================================
+   ACCENT LINES
+   ============================================================ */
+.line {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 1px;
+  width: 0;
+  opacity: 0;
+  z-index: 20;
+}
+
+.line--top {
+  top: 22%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.line--bottom {
+  bottom: 22%;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* ============================================================
+   STAGE (CENTER CONTAINER)
+   ============================================================ */
+.stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  gap: 1.6rem;
+  /* prevent text sitting behind the nav bar */
+  padding-bottom: 100px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.main-text {
+  font-family: "Playwrite GB J Guides", cursive;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 5.5vw, 5.5rem);
+  color: var(--cream);
+  letter-spacing: 0.1em;
+  text-align: center;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Character spans injected by JS */
+.char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(28px);
+  will-change: transform, opacity;
+}
+
+.char--space {
+  display: inline-block;
+  width: 0.35em;
+}
+
+.subtitle {
+  font-family: "Playwrite GB J Guides", cursive;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(0.65rem, 1.2vw, 0.9rem);
+  color: var(--gold);
+  letter-spacing: 0.5em;
+  text-transform: lowercase;
+  opacity: 0;
+  text-align: center;
+}
+
+/* ============================================================
+   BLINKING CARET
+   ============================================================ */
+.caret {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  background: var(--gold);
+  border-radius: 1px;
+  margin-left: 6px;
+  vertical-align: middle;
+  opacity: 0;
+}
+
+/* ============================================================
+   CUSTOM CURSOR — hidden on touch devices
+   ============================================================ */
+#cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--cream);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+#cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(200, 169, 110, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+}
+
+@media (pointer: coarse) {
+  #cursor-dot,
+  #cursor-ring { display: none; }
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET  (max 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  .corner {
+    width: 38px;
+    height: 38px;
+  }
+  .corner--tl { top: 20px; left: 20px; }
+  .corner--tr { top: 20px; right: 20px; }
+  .corner--bl { bottom: 20px; left: 20px; }
+  .corner--br { bottom: 20px; right: 20px; }
+
+  .main-text {
+    font-size: clamp(1.8rem, 7vw, 4rem);
+  }
+
+  .subtitle {
+    font-size: clamp(0.65rem, 2vw, 0.85rem);
+    letter-spacing: 0.35em;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE  (max 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .corner {
+    width: 26px;
+    height: 26px;
+  }
+  .corner--tl { top: 14px; left: 14px; }
+  .corner--tr { top: 14px; right: 14px; }
+  .corner--bl { bottom: 14px; left: 14px; }
+  .corner--br { bottom: 14px; right: 14px; }
+
+  .main-text {
+    font-size: clamp(1.6rem, 9vw, 2.8rem);
+    white-space: normal;       /* allow wrap on small screens */
+    word-break: break-word;
+    letter-spacing: 0.06em;
+  }
+
+  .subtitle {
+    font-size: clamp(0.6rem, 3.2vw, 0.75rem);
+    letter-spacing: 0.25em;
+  }
+
+  .stage {
+    gap: 1rem;
+    padding-bottom: 110px;
+  }
+}

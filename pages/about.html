@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>About — Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+J+Guides:ital@0;1&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/nav.css">
+
+  <style>
+    .loading-dot {
+      display: inline-block;
+      opacity: 0.15;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <canvas id="particles"></canvas>
+  <div class="vignette"></div>
+
+  <div class="corner corner--tl"></div>
+  <div class="corner corner--tr"></div>
+  <div class="corner corner--bl"></div>
+  <div class="corner corner--br"></div>
+
+  <div class="line line--top"></div>
+  <div class="line line--bottom"></div>
+
+  <div class="stage">
+    <div class="main-text" id="mainText">
+      Working on it<span class="loading-dot">.</span><span class="loading-dot">.</span><span
+        class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span><span
+        class="loading-dot">.</span><span class="loading-dot">.</span>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="../assets/js/placeholder.js"></script>
+  <script src="../assets/js/nav.js"></script>
+</body>
+
+</html>
