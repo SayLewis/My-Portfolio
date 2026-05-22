@@ -4,24 +4,439 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>About — Portfolio</title>
+  <title>About — Nickell Lewis</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+J+Guides:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Special+Elite&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="../assets/css/nav.css">
 
   <style>
-    .loading-dot {
-      display: inline-block;
-      opacity: 0.15;
+    /* ── Scrollable container ── */
+    .about-page {
+      position: fixed;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 10;
+      -webkit-overflow-scrolling: touch;
+      /* Overall warm sepia wash */
+      filter: sepia(0.18) contrast(1.04) brightness(0.97);
+    }
+
+    /* ── Film grain overlay (SVG injected via JS) ── */
+    #filmGrain {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 480;
+      pointer-events: none;
+      opacity: 0.07;
+      mix-blend-mode: screen;
+    }
+
+    /* ── Scanlines ── */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 479;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 3px,
+        rgba(0, 0, 0, 0.06) 3px,
+        rgba(0, 0, 0, 0.06) 4px
+      );
+    }
+
+    /* ── Hero ── */
+    .about-hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 120px;
+      position: relative;
+    }
+
+    .about-hero__name {
+      font-family: "IM Fell English", serif;
+      font-size: clamp(2.4rem, 6.5vw, 5.5rem);
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      text-shadow:
+        0 0 40px rgba(200, 169, 110, 0.2),
+        2px 2px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .about-hero__title {
+      font-family: "IM Fell English", serif;
+      font-style: italic;
+      font-size: clamp(0.8rem, 1.5vw, 1.05rem);
+      color: var(--gold);
+      letter-spacing: 0.22em;
+      margin-top: 1.1rem;
+      opacity: 0.85;
+    }
+
+    .about-hero__summary {
+      max-width: 560px;
+      font-family: "Special Elite", cursive;
+      font-size: clamp(0.78rem, 1.15vw, 0.9rem);
+      color: rgba(240, 232, 216, 0.55);
+      line-height: 2;
+      margin-top: 2rem;
+      letter-spacing: 0.03em;
+    }
+
+    .about-hero__scroll-hint {
+      position: absolute;
+      bottom: 44px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-hint-label {
+      font-family: "Special Elite", cursive;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      opacity: 0.55;
+    }
+
+    .scroll-hint-line {
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* ── Section label ── */
+    .tl-section-label {
+      text-align: center;
+      font-family: "IM Fell English", serif;
+      font-style: italic;
+      font-size: clamp(0.75rem, 1.3vw, 1rem);
+      color: var(--gold);
+      letter-spacing: 0.25em;
+      padding: 72px 0 52px;
+      opacity: 0.8;
+    }
+
+    /* ── Timeline wrapper ── */
+    .timeline {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .timeline__spine {
+      position: absolute;
+      left: calc(50% - 0.5px);
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(200, 169, 110, 0.22) 6%,
+        rgba(200, 169, 110, 0.22) 94%,
+        transparent
+      );
+      pointer-events: none;
+    }
+
+    /* ── Entry grid ── */
+    .tl-entry {
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr;
+      margin-bottom: 68px;
+      align-items: start;
+    }
+
+    .tl-entry--left .tl-card { grid-column: 1; padding-right: 28px; }
+    .tl-entry--left .tl-dot  { grid-column: 2; }
+
+    .tl-entry--right .tl-dot  { grid-column: 2; }
+    .tl-entry--right .tl-card { grid-column: 3; padding-left: 28px; }
+
+    /* ── Dot ── */
+    .tl-dot {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 6px;
+    }
+
+    .tl-dot__circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: var(--black);
+      flex-shrink: 0;
+      transform-origin: center;
+    }
+
+    .tl-entry--current .tl-dot__circle {
+      background: var(--gold);
+      box-shadow: 0 0 14px rgba(200, 169, 110, 0.6), 0 0 28px rgba(200, 169, 110, 0.2);
+    }
+
+    .tl-dot__year {
+      position: absolute;
+      top: 6px;
+      font-family: "Special Elite", cursive;
+      font-size: 0.6rem;
+      color: rgba(200, 169, 110, 0.65);
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .tl-entry--left  .tl-dot__year { left:  30px; }
+    .tl-entry--right .tl-dot__year { right: 30px; text-align: right; }
+
+    /* ── Card ── */
+    .tl-card {
+      border: 1px solid rgba(200, 169, 110, 0.18);
+      /* Warm dark — like aged paper in shadow */
+      background: rgba(10, 7, 3, 0.72);
+      backdrop-filter: blur(6px);
+      padding: 20px 22px;
+      box-shadow:
+        inset 0 0 30px rgba(0, 0, 0, 0.35),
+        0 2px 12px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    /* Subtle inner warm texture */
+    .tl-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(200, 169, 110, 0.012) 3px,
+        rgba(200, 169, 110, 0.012) 4px
+      );
+      pointer-events: none;
+    }
+
+    .tl-entry--current .tl-card {
+      border-color: rgba(200, 169, 110, 0.32);
+      box-shadow:
+        inset 0 0 30px rgba(0, 0, 0, 0.35),
+        0 2px 16px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(200, 169, 110, 0.06);
+    }
+
+    .tl-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 3px 10px;
+      border: 1px solid var(--gold);
+      font-family: "Special Elite", cursive;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .tl-badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.25; }
+    }
+
+    .tl-card__type {
+      font-family: "Special Elite", cursive;
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(200, 169, 110, 0.5);
+      margin-bottom: 6px;
+    }
+
+    .tl-card__title {
+      font-family: "IM Fell English", serif;
+      font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+      color: var(--cream);
+      line-height: 1.4;
+      margin-bottom: 5px;
+    }
+
+    .tl-card__org {
+      font-family: "Special Elite", cursive;
+      font-size: 0.72rem;
+      color: rgba(200, 169, 110, 0.7);
+      margin-bottom: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .tl-card__bullets {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tl-card__bullets li {
+      font-family: "Special Elite", cursive;
+      font-size: 0.72rem;
+      color: rgba(240, 232, 216, 0.48);
+      line-height: 1.7;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .tl-card__bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      opacity: 0.3;
+      font-size: 0.66rem;
+      top: 1px;
+    }
+
+    /* ── Accomplishments ── */
+    .accomplishments {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .accomplishment-card {
+      padding: 20px 22px;
+      border: 1px solid rgba(200, 169, 110, 0.15);
+      background: rgba(10, 7, 3, 0.65);
+      backdrop-filter: blur(6px);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .accomplishment-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(200, 169, 110, 0.01) 3px,
+        rgba(200, 169, 110, 0.01) 4px
+      );
+      pointer-events: none;
+    }
+
+    .accomplishment-card__text {
+      font-family: "Special Elite", cursive;
+      font-size: 0.76rem;
+      color: rgba(240, 232, 216, 0.5);
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Skills / Certs ── */
+    .skills-section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      font-family: "Special Elite", cursive;
+      padding: 5px 14px;
+      border: 1px solid rgba(200, 169, 110, 0.2);
+      font-size: 0.68rem;
+      color: rgba(240, 232, 216, 0.45);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Footer spacing ── */
+    .about-footer {
+      height: 110px;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 620px) {
+      .timeline__spine { left: 15px; }
+
+      .tl-entry {
+        grid-template-columns: 32px 1fr;
+        margin-bottom: 48px;
+      }
+
+      .tl-entry--left .tl-card,
+      .tl-entry--right .tl-card {
+        grid-column: 2;
+        grid-row: 1;
+        padding-left: 16px;
+        padding-right: 0;
+      }
+
+      .tl-entry--left .tl-dot,
+      .tl-entry--right .tl-dot {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .tl-dot__year { display: none; }
+      .tl-card__title { font-size: 0.9rem; }
+      .accomplishments { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Film grain (seed animated by about.js) -->
+  <svg id="filmGrain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <filter id="gf" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence id="grainTurbulence" type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch" seed="0"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#gf)" fill="white"/>
+  </svg>
+
+  <!-- Scanlines -->
+  <div class="scanlines" aria-hidden="true"></div>
 
   <canvas id="particles"></canvas>
   <div class="vignette"></div>
@@ -34,17 +449,213 @@
   <div class="line line--top"></div>
   <div class="line line--bottom"></div>
 
-  <div class="stage">
-    <div class="main-text" id="mainText">
-      Working on it<span class="loading-dot">.</span><span class="loading-dot">.</span><span
-        class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span><span
-        class="loading-dot">.</span><span class="loading-dot">.</span>
+  <!-- Scrollable container -->
+  <div class="about-page" id="aboutPage">
+
+    <!-- ── Hero ── -->
+    <section class="about-hero">
+      <h1 class="about-hero__name" id="heroName">Nickell Lewis</h1>
+      <p class="about-hero__title" id="heroTitle">software developer &nbsp;·&nbsp; it analyst</p>
+      <p class="about-hero__summary" id="heroSummary">
+        Analytical and adaptable developer with hands-on experience in backend development, IT support,
+        and data analytics. Driven by curiosity, continuous learning, and collaborative problem-solving.
+      </p>
+      <div class="about-hero__scroll-hint" id="scrollHint">
+        <span class="scroll-hint-label">scroll</span>
+        <div class="scroll-hint-line"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════ EDUCATION ══════════════ -->
+    <p class="tl-section-label">education</p>
+
+    <div class="timeline">
+      <div class="timeline__spine"></div>
+
+      <!-- St. Benedicts -->
+      <div class="tl-entry tl-entry--left" data-tl>
+        <div class="tl-card">
+          <div class="tl-card__type">Secondary Education</div>
+          <div class="tl-card__title">8 CAPE Units</div>
+          <div class="tl-card__org">St. Benedicts College &mdash; San Fernando</div>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2018 &ndash; 2020</div>
+        </div>
+      </div>
+
+      <!-- UWI -->
+      <div class="tl-entry tl-entry--right" data-tl>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2022 &ndash; 2025</div>
+        </div>
+        <div class="tl-card">
+          <div class="tl-card__type">University</div>
+          <div class="tl-card__title">BSc Computer Science &amp; Statistics</div>
+          <div class="tl-card__org">University of the West Indies &mdash; St. Augustine</div>
+          <ul class="tl-card__bullets">
+            <li>Major in Computer Science, Minor in Statistics</li>
+            <li>Graduated July 2025</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
+    <!-- ══════════════ EXPERIENCE ══════════════ -->
+    <p class="tl-section-label">experience</p>
+
+    <div class="timeline">
+      <div class="timeline__spine"></div>
+
+      <!-- Math Teacher -->
+      <div class="tl-entry tl-entry--left" data-tl>
+        <div class="tl-card">
+          <div class="tl-card__type">Teaching</div>
+          <div class="tl-card__title">Mathematics Teacher</div>
+          <div class="tl-card__org">Mathkini Lessons &mdash; St. Margaret&rsquo;s, Trinidad</div>
+          <ul class="tl-card__bullets">
+            <li>Instructed 100+ CAPE Math students with a 90% pass rate</li>
+            <li>Created custom exam prep schedules and interactive lesson plans</li>
+            <li>Managed parent communication, billing, and student performance tracking</li>
+          </ul>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2019 &ndash; 2025</div>
+        </div>
+      </div>
+
+      <!-- Lab Assistant -->
+      <div class="tl-entry tl-entry--right" data-tl>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2023 &ndash; 2025</div>
+        </div>
+        <div class="tl-card">
+          <div class="tl-card__type">Lab Support</div>
+          <div class="tl-card__title">Lab Assistant</div>
+          <div class="tl-card__org">Dept. of Computing &amp; IT, UWI &mdash; St. Augustine</div>
+          <ul class="tl-card__bullets">
+            <li>Hardware &amp; software support to students and lecturers during lab sessions</li>
+            <li>Set up projectors, printers, and ensured seamless LMS access</li>
+            <li>Monitored coding exercises and assisted with file management</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- IT Intern CEPEP -->
+      <div class="tl-entry tl-entry--left" data-tl>
+        <div class="tl-card">
+          <div class="tl-card__type">IT Internship</div>
+          <div class="tl-card__title">IT Intern</div>
+          <div class="tl-card__org">The CEPEP Company Limited &mdash; Trinidad</div>
+          <ul class="tl-card__bullets">
+            <li>Designed &amp; deployed a bootable automated Windows installer (60% faster onboarding)</li>
+            <li>Performed credential setup, software installations, and device troubleshooting</li>
+            <li>Documented inventory updates and supported network optimization</li>
+          </ul>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">Jul &ndash; Aug 2024</div>
+        </div>
+      </div>
+
+      <!-- Agostini — Current -->
+      <div class="tl-entry tl-entry--right tl-entry--current" data-tl>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2025 &ndash; present</div>
+        </div>
+        <div class="tl-card">
+          <div class="tl-badge">Current</div>
+          <div class="tl-card__type">Internship</div>
+          <div class="tl-card__title">Intern</div>
+          <div class="tl-card__org">Agostini Insurance Brokers Ltd &mdash; Port of Spain, Trinidad</div>
+          <ul class="tl-card__bullets">
+            <li>Assisted with internal audit reviews and financial record verification</li>
+            <li>Performed risk assessment to identify discrepancies in claims and underwriting files</li>
+            <li>Prepared audit working papers ensuring compliance with company policies</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ ACCOMPLISHMENTS ══════════════ -->
+    <p class="tl-section-label">accomplishments</p>
+
+    <div class="accomplishments">
+      <div class="accomplishment-card" data-achieve>
+        <div class="accomplishment-card__text">
+          Developed a fully functional Flask-based recipe app with inventory tracking and dynamic UI
+        </div>
+      </div>
+      <div class="accomplishment-card" data-achieve>
+        <div class="accomplishment-card__text">
+          Deployed automated Windows installer that reduced onboarding time by 60%
+        </div>
+      </div>
+      <div class="accomplishment-card" data-achieve>
+        <div class="accomplishment-card__text">
+          Received 5-star feedback from students and parents across three academic years
+        </div>
+      </div>
+      <div class="accomplishment-card" data-achieve>
+        <div class="accomplishment-card__text">
+          Implemented a RESTful API for student conduct tracking in a collaborative team project
+        </div>
+      </div>
+      <div class="accomplishment-card" data-achieve>
+        <div class="accomplishment-card__text">
+          Created custom Python tools to streamline repetitive data tasks during internship
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ CERTIFICATIONS ══════════════ -->
+    <p class="tl-section-label">certifications</p>
+
+    <div class="skills-section" style="padding-bottom: 0;">
+      <div class="skills-grid">
+        <div class="skill-tag" data-skill>ITIL 4 Foundation &mdash; In Progress</div>
+        <div class="skill-tag" data-skill>CISCO CCNA &mdash; In Progress</div>
+      </div>
+    </div>
+
+    <!-- ══════════════ SKILLS ══════════════ -->
+    <p class="tl-section-label">skills</p>
+
+    <div class="skills-section">
+      <div class="skills-grid">
+        <div class="skill-tag" data-skill>Python</div>
+        <div class="skill-tag" data-skill>Java</div>
+        <div class="skill-tag" data-skill>C++</div>
+        <div class="skill-tag" data-skill>SQL</div>
+        <div class="skill-tag" data-skill>Flask</div>
+        <div class="skill-tag" data-skill>HTML / CSS / JS</div>
+        <div class="skill-tag" data-skill>Git &amp; GitHub</div>
+        <div class="skill-tag" data-skill>REST API Integration</div>
+        <div class="skill-tag" data-skill>Firebase</div>
+        <div class="skill-tag" data-skill>SPSS</div>
+        <div class="skill-tag" data-skill>MATLAB</div>
+        <div class="skill-tag" data-skill>Pandas &amp; NumPy</div>
+        <div class="skill-tag" data-skill>Jinja2</div>
+        <div class="skill-tag" data-skill>Agile Development</div>
+        <div class="skill-tag" data-skill>Data Analytics &amp; Visualization</div>
+        <div class="skill-tag" data-skill>Backend Development</div>
+        <div class="skill-tag" data-skill>Hardware / Software Troubleshooting</div>
+      </div>
+    </div>
+
+    <div class="about-footer"></div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="../assets/js/placeholder.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../assets/js/about.js"></script>
   <script src="../assets/js/nav.js"></script>
-</body>
 
+</body>
 </html>
