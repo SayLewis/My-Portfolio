@@ -6,7 +6,7 @@
 const PROFILE = {
   name: 'Nickell Lewis',
   initials: 'NL',
-  title: 'IT Support Anaylst',
+  title: 'IT Support Analyst',
   bio: 'I Hate Copilot Studio',
   location: 'San Fernando, TT',
   photo: '/assets/images/profile-avatar.jpg',   // small avatar asset for faster loading
@@ -105,6 +105,11 @@ function buildNav() {
 function initNav() {
   buildNav();
 
+  // Entrance — slide the bar up on first load
+  if (!navReduceMotion && window.gsap) {
+    gsap.from('#navBar', { y: 90, opacity: 0, duration: 0.9, ease: 'power3.out', delay: 0.5 });
+  }
+
   const card = document.getElementById('profileCard');
   const overlay = document.getElementById('profileOverlay');
   const avatarBtn = document.getElementById('navAvatarBtn');
@@ -149,13 +154,14 @@ function initNav() {
   overlay.addEventListener('click', closeCard);
   card.addEventListener('click', e => e.stopPropagation());
 
-  // Nav page routing
+  // Nav routing — smooth-scroll to in-page sections (single-page site)
+  const SECTION_FOR = { home: '#top', work: '#work', about: '#about' };
   document.querySelectorAll('.nav-item').forEach(item => {
     item.addEventListener('click', () => {
-      const page = item.dataset.page;
-      if (page === 'home')  window.location.href = '/';
-      if (page === 'work')  window.location.href = '/pages/work.html';
-      if (page === 'about') window.location.href = '/pages/about.html';
+      const target = document.querySelector(SECTION_FOR[item.dataset.page]);
+      if (target) {
+        target.scrollIntoView({ behavior: navReduceMotion ? 'auto' : 'smooth', block: 'start' });
+      }
     });
   });
 

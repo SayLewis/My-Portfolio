@@ -12,6 +12,8 @@
   --cream:  #f0e8d8;
   --gold:   #c8a96e;
   --dim:    rgba(200, 169, 110, 0.18);
+  --pop:      #5fc2b0;                  /* vintage teal — attention accent */
+  --pop-soft: rgba(95, 194, 176, 0.14);
 }
 
 /* ============================================================
@@ -19,9 +21,17 @@
    ============================================================ */
 html, body {
   width: 100%;
-  height: 100%;
   background: var(--black);
-  overflow: hidden;
+}
+
+body {
+  /* single-page site scrolls vertically; ambient layers stay fixed */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }
 
 /* ============================================================

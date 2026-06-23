@@ -4,46 +4,319 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Portfolio</title>
+  <title>Nickell Lewis — Developer &amp; IT Analyst</title>
+  <meta name="description" content="Portfolio of Nickell Lewis — software developer and IT analyst based in Trinidad &amp; Tobago.">
 
-  <!-- Google Fonts — Playwrite GB J Guides -->
+  <!-- Google Fonts — IM Fell English (display) + Courier Prime (readable typewriter body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playwrite+GB+J+Guides:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 
   <!-- Styles -->
   <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/sections.css">
   <link rel="stylesheet" href="assets/css/nav.css">
-
 </head>
 
 <body>
 
-  <!-- Ambient layers -->
+  <!-- ══════════ FIXED AMBIENT BACKDROP ══════════ -->
   <canvas id="particles"></canvas>
   <div class="vignette"></div>
 
-  <!-- Corner brackets -->
+  <!-- Film grain (seed animated by site.js) -->
+  <svg id="filmGrain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <filter id="gf" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence id="grainTurbulence" type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch" seed="0"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#gf)" fill="white"/>
+  </svg>
+
+  <!-- Scanlines -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- Corner frame -->
   <div class="corner corner--tl"></div>
   <div class="corner corner--tr"></div>
   <div class="corner corner--bl"></div>
   <div class="corner corner--br"></div>
 
-  <!-- Accent lines -->
-  <div class="line line--top"></div>
-  <div class="line line--bottom"></div>
+  <!-- Scroll progress line -->
+  <div class="scroll-progress" aria-hidden="true"></div>
 
-  <!-- Main content -->
-  <div class="stage">
-    <div class="main-text" id="mainText">
-      Under Construction<span class="caret" id="caret"></span>
+  <!-- ══════════ SCROLLING CONTENT ══════════ -->
+  <main class="content">
+
+    <!-- ── HERO ── -->
+    <section id="top" class="hero">
+      <div class="line line--top"></div>
+      <div class="line line--bottom"></div>
+
+      <div class="hero__inner">
+        <p class="hero__eyebrow">portfolio</p>
+        <h1 class="hero__name">Nickell Lewis</h1>
+        <p class="hero__title">software developer &nbsp;·&nbsp; it analyst</p>
+        <p class="hero__summary">
+          Analytical and adaptable developer with hands-on experience in backend development,
+          IT support, and data analytics. Driven by curiosity, continuous learning, and
+          collaborative problem-solving.
+        </p>
+      </div>
+
+      <div class="hero__scroll" aria-hidden="true">
+        <span class="hero__scroll-label">scroll</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════ EDUCATION ══════════════ -->
+    <p class="section-label" id="about">education</p>
+
+    <div class="timeline">
+      <div class="timeline__spine"></div>
+
+      <!-- St. Benedicts -->
+      <div class="tl-entry tl-entry--left" data-tl>
+        <div class="tl-card">
+          <div class="tl-card__type">Secondary Education</div>
+          <div class="tl-card__title">8 CAPE Units</div>
+          <div class="tl-card__org">St. Benedicts College &mdash; San Fernando</div>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2018 &ndash; 2020</div>
+        </div>
+      </div>
+
+      <!-- UWI -->
+      <div class="tl-entry tl-entry--right" data-tl>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2022 &ndash; 2025</div>
+        </div>
+        <div class="tl-card">
+          <div class="tl-card__type">University</div>
+          <div class="tl-card__title">BSc Computer Science &amp; Statistics</div>
+          <div class="tl-card__org">University of the West Indies &mdash; St. Augustine</div>
+          <ul class="tl-card__bullets">
+            <li>Major in Computer Science, Minor in Statistics</li>
+            <li>Graduated July 2025</li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="subtitle" id="subtitle">I just be working on stuff fr fr </div>
+
+    <!-- ══════════════ EXPERIENCE ══════════════ -->
+    <p class="section-label">experience</p>
+
+    <div class="timeline">
+      <div class="timeline__spine"></div>
+
+      <!-- Math Teacher -->
+      <div class="tl-entry tl-entry--left" data-tl>
+        <div class="tl-card">
+          <div class="tl-card__type">Teaching</div>
+          <div class="tl-card__title">Mathematics Teacher</div>
+          <div class="tl-card__org">Mathkini Lessons &mdash; St. Margaret&rsquo;s, Trinidad</div>
+          <ul class="tl-card__bullets">
+            <li>Instructed <span class="pop">100+</span> CAPE Math students with a <span class="pop">90%</span> pass rate</li>
+            <li>Created custom exam prep schedules and interactive lesson plans</li>
+            <li>Managed parent communication, billing, and student performance tracking</li>
+          </ul>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2019 &ndash; 2025</div>
+        </div>
+      </div>
+
+      <!-- Lab Assistant -->
+      <div class="tl-entry tl-entry--right" data-tl>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2023 &ndash; 2025</div>
+        </div>
+        <div class="tl-card">
+          <div class="tl-card__type">Lab Support</div>
+          <div class="tl-card__title">Lab Assistant</div>
+          <div class="tl-card__org">Dept. of Computing &amp; IT, UWI &mdash; St. Augustine</div>
+          <ul class="tl-card__bullets">
+            <li>Hardware &amp; software support to students and lecturers during lab sessions</li>
+            <li>Set up projectors, printers, and ensured seamless LMS access</li>
+            <li>Monitored coding exercises and assisted with file management</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- IT Intern CEPEP -->
+      <div class="tl-entry tl-entry--left" data-tl>
+        <div class="tl-card">
+          <div class="tl-card__type">IT Internship</div>
+          <div class="tl-card__title">IT Intern</div>
+          <div class="tl-card__org">The CEPEP Company Limited &mdash; Trinidad</div>
+          <ul class="tl-card__bullets">
+            <li>Designed &amp; deployed a bootable automated Windows installer (<span class="pop">60%</span> faster onboarding)</li>
+            <li>Performed credential setup, software installations, and device troubleshooting</li>
+            <li>Documented inventory updates and supported network optimization</li>
+          </ul>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">Jul &ndash; Aug 2024</div>
+        </div>
+      </div>
+
+      <!-- Agostini -->
+      <div class="tl-entry tl-entry--right" data-tl>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">2025 &ndash; Dec 2025</div>
+        </div>
+        <div class="tl-card">
+          <div class="tl-card__type">Internship</div>
+          <div class="tl-card__title">Intern</div>
+          <div class="tl-card__org">Agostini Insurance Brokers Ltd &mdash; Port of Spain, Trinidad</div>
+          <ul class="tl-card__bullets">
+            <li>Assisted with internal audit reviews and financial record verification</li>
+            <li>Performed risk assessment to identify discrepancies in claims and underwriting files</li>
+            <li>Prepared audit working papers ensuring compliance with company policies</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- HRIZONS Caribbean — Current -->
+      <div class="tl-entry tl-entry--left tl-entry--current" data-tl>
+        <div class="tl-card">
+          <div class="tl-badge">Current</div>
+          <div class="tl-card__type">IT Support</div>
+          <div class="tl-card__title">IT Support Analyst</div>
+          <div class="tl-card__org">HRIZONS Caribbean Limited &mdash; Trinidad</div>
+          <ul class="tl-card__bullets">
+            <!-- TODO: replace these placeholders with Nickell's real HRIZONS accomplishments -->
+            <li>Provide IT support and troubleshooting across internal and client-facing systems</li>
+            <li>Build and maintain automations and workflows with Microsoft Power Platform &amp; Copilot Studio</li>
+            <li>Support HR technology implementations, data tasks, and end-user onboarding</li>
+          </ul>
+        </div>
+        <div class="tl-dot">
+          <div class="tl-dot__circle"></div>
+          <div class="tl-dot__year">Mar 2026 &ndash; present</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ PROJECTS ══════════════ -->
+    <p class="section-label" id="work">projects</p>
+
+    <div class="project-grid">
+      <article class="project-card" data-project>
+        <div class="project-card__index">01</div>
+        <h3 class="project-card__title">Recipe &amp; Inventory App</h3>
+        <p class="project-card__desc">A full-featured Flask web app for managing recipes with live inventory tracking and a dynamic, responsive interface.</p>
+        <div class="project-card__tags"><span>Flask</span><span>Python</span><span>Jinja2</span><span>SQL</span></div>
+      </article>
+
+      <article class="project-card" data-project>
+        <div class="project-card__index">02</div>
+        <h3 class="project-card__title">Automated Windows Installer</h3>
+        <p class="project-card__desc">A bootable, fully automated Windows deployment that cut device onboarding time by <span class="pop">60%</span> during my CEPEP internship.</p>
+        <div class="project-card__tags"><span>Windows</span><span>Automation</span><span>Scripting</span><span>IT Ops</span></div>
+      </article>
+
+      <article class="project-card" data-project>
+        <div class="project-card__index">03</div>
+        <h3 class="project-card__title">Company Website</h3>
+        <p class="project-card__desc">Designed and built the company website for HRIZONS Caribbean Limited &mdash; a clean, responsive online presence.</p>
+        <div class="project-card__tags"><span>HTML / CSS</span><span>JavaScript</span><span>Responsive</span><span>Web Design</span></div>
+      </article>
+
+      <article class="project-card" data-project>
+        <div class="project-card__index">04</div>
+        <h3 class="project-card__title">API Automation Scripts</h3>
+        <p class="project-card__desc">A growing toolkit of Python scripts that tap into external APIs to automate everyday tasks and improve quality of life.</p>
+        <div class="project-card__tags"><span>Python</span><span>REST APIs</span><span>Automation</span><span>Scripting</span></div>
+      </article>
+    </div>
+
+    <div class="project-more">
+      <a href="https://github.com/SayLewis" target="_blank" rel="noopener noreferrer">more on github &#8599;</a>
+    </div>
+
+    <!-- ══════════════ CERTIFICATIONS ══════════════ -->
+    <p class="section-label">certifications</p>
+
+    <div class="skills-section" style="padding-bottom: 0;">
+      <div class="skills-grid">
+        <button class="skill-tag skill-tag--cert" type="button" data-skill data-cert="itil" aria-haspopup="dialog">
+          ITIL 4 Foundation <span class="cert-status cert-status--done">Completed</span>
+        </button>
+        <button class="skill-tag skill-tag--cert" type="button" data-skill data-cert="ab900" aria-haspopup="dialog">
+          Microsoft AB-900 <span class="cert-status cert-status--wip">In Progress</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════ SKILLS ══════════════ -->
+    <p class="section-label">skills</p>
+
+    <div class="skills-section">
+      <div class="skills-grid">
+        <div class="skill-tag" data-skill>Python</div>
+        <div class="skill-tag" data-skill>Java</div>
+        <div class="skill-tag" data-skill>C++</div>
+        <div class="skill-tag" data-skill>SQL</div>
+        <div class="skill-tag" data-skill>Flask</div>
+        <div class="skill-tag" data-skill>HTML / CSS / JS</div>
+        <div class="skill-tag" data-skill>Git &amp; GitHub</div>
+        <div class="skill-tag" data-skill>REST API Integration</div>
+        <div class="skill-tag" data-skill>Firebase</div>
+        <div class="skill-tag" data-skill>SPSS</div>
+        <div class="skill-tag" data-skill>MATLAB</div>
+        <div class="skill-tag" data-skill>Pandas &amp; NumPy</div>
+        <div class="skill-tag" data-skill>Jinja2</div>
+        <div class="skill-tag" data-skill>Agile Development</div>
+        <div class="skill-tag" data-skill>Data Analytics &amp; Visualization</div>
+        <div class="skill-tag" data-skill>Backend Development</div>
+        <div class="skill-tag" data-skill>Hardware / Software Troubleshooting</div>
+      </div>
+    </div>
+
+    <!-- ══════════════ CONTACT ══════════════ -->
+    <section id="contact" class="contact">
+      <p class="section-label" style="padding-bottom: 30px;">contact</p>
+      <h2 class="contact__headline" data-reveal>Let&rsquo;s build something.</h2>
+      <p class="contact__sub" data-reveal>Open to opportunities in software development, IT support, and data analytics.</p>
+      <div class="contact__links" data-reveal>
+        <a href="mailto:nickelllewis1@gmail.com">Email</a>
+        <a href="https://github.com/SayLewis" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/nickell-lewis-52aa3b282/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="/assets/docs/Nickell_Lewis_Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute;</a>
+      </div>
+      <p class="contact__loc" data-reveal>San Fernando &middot; Trinidad &amp; Tobago</p>
+    </section>
+
+    <footer class="site-footer">&copy; 2025 Nickell Lewis</footer>
+
+  </main>
+
+  <!-- Certification detail modal -->
+  <div class="cert-modal-overlay" id="certModal" aria-hidden="true">
+    <div class="cert-modal" role="dialog" aria-modal="true" aria-labelledby="certModalTitle">
+      <button class="cert-modal__close" id="certModalClose" type="button" aria-label="Close">&times;</button>
+      <span class="cert-modal__status" id="certModalStatus"></span>
+      <h3 class="cert-modal__title" id="certModalTitle"></h3>
+      <div class="cert-modal__issuer" id="certModalIssuer"></div>
+      <p class="cert-modal__desc" id="certModalDesc"></p>
+      <div class="cert-modal__topics-label">Key topics</div>
+      <ul class="cert-modal__topics" id="certModalTopics"></ul>
+    </div>
   </div>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/site.js"></script>
   <script src="assets/js/nav.js"></script>
 </body>
 

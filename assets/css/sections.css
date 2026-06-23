@@ -1,0 +1,780 @@
+/* ============================================================
+   SECTIONS — single-page continuous-scroll layout
+   Cinematic vintage aesthetic. Extends the design system in main.css.
+   ============================================================ */
+
+/* ── Film grain + scanlines (fixed overlays above content) ── */
+#filmGrain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 480;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: screen;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 479;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+}
+
+/* ── Scrolling content sits above the fixed backdrop ── */
+.content {
+  position: relative;
+  z-index: 10;
+  /* keep the last content clear of the floating bottom nav */
+  padding-bottom: 130px;
+}
+
+/* Attention accent — draws the eye to key numbers and highlights */
+.pop {
+  color: var(--pop);
+  font-weight: 700;
+}
+
+/* ── Section label ── */
+.section-label {
+  text-align: center;
+  font-family: "IM Fell English", serif;
+  font-style: italic;
+  font-size: clamp(0.8rem, 1.4vw, 1.05rem);
+  color: var(--gold);
+  letter-spacing: 0.25em;
+  padding: 96px 0 52px;
+  opacity: 0.85;
+  scroll-margin-top: 24px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 90px 24px 140px;
+}
+
+/* Accent lines scoped to the hero (override fixed positioning from main.css) */
+.hero .line { position: absolute; z-index: 0; }
+.hero .line--top { top: 24%; }
+.hero .line--bottom { bottom: 22%; }
+
+.hero__eyebrow {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--pop);
+  opacity: 0.85;
+  margin-bottom: 1.6rem;
+}
+
+.hero__name {
+  font-family: "IM Fell English", serif;
+  font-size: clamp(2.6rem, 8vw, 6rem);
+  color: var(--cream);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  text-shadow:
+    0 0 44px rgba(200, 169, 110, 0.22),
+    2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.hero__title {
+  font-family: "IM Fell English", serif;
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+  color: var(--gold);
+  letter-spacing: 0.22em;
+  margin-top: 1.2rem;
+  opacity: 0.85;
+}
+
+.hero__summary {
+  max-width: 560px;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: clamp(0.78rem, 1.15vw, 0.92rem);
+  color: rgba(240, 232, 216, 0.74);
+  line-height: 2;
+  margin-top: 2.2rem;
+  letter-spacing: 0.03em;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 46px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero__scroll-label {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.55;
+}
+
+.hero__scroll-line {
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+
+/* ============================================================
+   TIMELINE (education + experience)
+   ============================================================ */
+.timeline {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+.timeline__spine {
+  position: absolute;
+  left: calc(50% - 0.5px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(200, 169, 110, 0.22) 6%,
+    rgba(200, 169, 110, 0.22) 94%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.tl-entry {
+  display: grid;
+  grid-template-columns: 1fr 48px 1fr;
+  margin-bottom: 68px;
+  align-items: start;
+}
+
+.tl-entry--left .tl-card { grid-column: 1; padding-right: 28px; }
+.tl-entry--left .tl-dot  { grid-column: 2; }
+
+.tl-entry--right .tl-dot  { grid-column: 2; }
+.tl-entry--right .tl-card { grid-column: 3; padding-left: 28px; }
+
+.tl-dot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.tl-dot__circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: var(--black);
+  flex-shrink: 0;
+  transform-origin: center;
+}
+
+.tl-entry--current .tl-dot__circle {
+  background: var(--pop);
+  box-shadow: 0 0 14px rgba(95, 194, 176, 0.6), 0 0 28px rgba(95, 194, 176, 0.22);
+}
+
+.tl-dot__year {
+  position: absolute;
+  top: 6px;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.6rem;
+  color: rgba(200, 169, 110, 0.65);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tl-entry--left  .tl-dot__year { left:  30px; }
+.tl-entry--right .tl-dot__year { right: 30px; text-align: right; }
+
+.tl-card {
+  border: 1px solid rgba(200, 169, 110, 0.18);
+  background: rgba(10, 7, 3, 0.72);
+  backdrop-filter: blur(6px);
+  padding: 20px 22px;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.35),
+    0 2px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.tl-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(200, 169, 110, 0.012) 3px,
+    rgba(200, 169, 110, 0.012) 4px
+  );
+  pointer-events: none;
+}
+
+.tl-entry--current .tl-card {
+  border-color: rgba(95, 194, 176, 0.4);
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.35),
+    0 2px 16px rgba(0, 0, 0, 0.5),
+    0 0 22px rgba(95, 194, 176, 0.1);
+}
+
+.tl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 10px;
+  border: 1px solid var(--pop);
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pop);
+  margin-bottom: 12px;
+}
+
+.tl-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--pop);
+  flex-shrink: 0;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+.tl-card__type {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.62);
+  margin-bottom: 6px;
+}
+
+.tl-card__title {
+  font-family: "IM Fell English", serif;
+  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  color: var(--cream);
+  line-height: 1.4;
+  margin-bottom: 5px;
+}
+
+.tl-card__org {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.72rem;
+  color: rgba(200, 169, 110, 0.7);
+  margin-bottom: 13px;
+  letter-spacing: 0.04em;
+}
+
+.tl-card__bullets {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tl-card__bullets li {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.76rem;
+  color: rgba(240, 232, 216, 0.62);
+  line-height: 1.8;
+  padding-left: 16px;
+  position: relative;
+}
+
+.tl-card__bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  opacity: 0.3;
+  font-size: 0.66rem;
+  top: 1px;
+}
+
+/* ============================================================
+   PROJECTS
+   ============================================================ */
+.project-grid {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  position: relative;
+  padding: 26px 24px;
+  border: 1px solid rgba(200, 169, 110, 0.18);
+  background: rgba(10, 7, 3, 0.72);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.35),
+    0 2px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (hover: hover) {
+  .project-card:hover {
+    border-color: rgba(200, 169, 110, 0.4);
+    transform: translateY(-4px);
+    box-shadow:
+      inset 0 0 30px rgba(0, 0, 0, 0.35),
+      0 10px 28px rgba(0, 0, 0, 0.55),
+      0 0 22px rgba(200, 169, 110, 0.08);
+  }
+}
+
+.project-card__index {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  color: var(--pop);
+}
+
+.project-card__title {
+  font-family: "IM Fell English", serif;
+  font-size: 1.15rem;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.project-card__desc {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.78rem;
+  color: rgba(240, 232, 216, 0.64);
+  line-height: 1.8;
+  flex: 1;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.project-card__tags span {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.62rem;
+  padding: 3px 9px;
+  border: 1px solid rgba(200, 169, 110, 0.2);
+  color: rgba(200, 169, 110, 0.7);
+  letter-spacing: 0.04em;
+}
+
+.project-more {
+  text-align: center;
+  margin-top: 34px;
+}
+
+.project-more a {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200, 169, 110, 0.4);
+  padding-bottom: 3px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.project-more a:hover {
+  color: var(--pop);
+  border-color: var(--pop);
+}
+
+/* ============================================================
+   SKILLS / CERTIFICATIONS
+   ============================================================ */
+.skills-section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.skill-tag {
+  font-family: "Courier Prime", "Courier New", monospace;
+  padding: 5px 14px;
+  border: 1px solid rgba(200, 169, 110, 0.2);
+  font-size: 0.7rem;
+  color: rgba(240, 232, 216, 0.6);
+  letter-spacing: 0.05em;
+  background: transparent;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease,
+              transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* All skills pop on hover */
+@media (hover: hover) {
+  .skill-tag:hover {
+    color: var(--pop);
+    border-color: var(--pop);
+    background: var(--pop-soft);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 16px rgba(95, 194, 176, 0.16);
+  }
+}
+
+.skill-tag:active { transform: translateY(0) scale(0.97); }
+
+/* Certification chips are clickable buttons */
+.skill-tag--cert {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: rgba(10, 7, 3, 0.45);
+  font: inherit;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.7rem;
+}
+
+.cert-status {
+  font-size: 0.54rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  margin-left: 6px;
+}
+
+.cert-status--done { color: var(--gold); }
+.cert-status--wip  { color: var(--pop); }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.contact__headline {
+  font-family: "IM Fell English", serif;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  color: var(--cream);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 0 40px rgba(200, 169, 110, 0.18);
+}
+
+.contact__sub {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.8rem;
+  color: rgba(240, 232, 216, 0.66);
+  line-height: 1.9;
+  margin-bottom: 2.2rem;
+}
+
+.contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+
+.contact__links a {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240, 232, 216, 0.7);
+  text-decoration: none;
+  padding: 12px 22px;
+  border: 1px solid rgba(200, 169, 110, 0.25);
+  background: rgba(10, 7, 3, 0.55);
+  transition: color 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.contact__links a:hover {
+  color: var(--black);
+  background: var(--pop);
+  border-color: var(--pop);
+}
+
+.contact__loc {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.45);
+}
+
+/* ── Footer ── */
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 24px;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(200, 169, 110, 0.3);
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 620px) {
+  .timeline__spine { left: 15px; }
+
+  .tl-entry {
+    grid-template-columns: 32px 1fr;
+    margin-bottom: 48px;
+  }
+
+  .tl-entry--left .tl-card,
+  .tl-entry--right .tl-card {
+    grid-column: 2;
+    grid-row: 1;
+    padding-left: 16px;
+    padding-right: 0;
+  }
+
+  .tl-entry--left .tl-dot,
+  .tl-entry--right .tl-dot {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .tl-dot__year { display: none; }
+  .tl-card__title { font-size: 0.9rem; }
+
+  .section-label { padding: 72px 0 40px; }
+}
+
+/* ============================================================
+   ANIMATION SUPPORT (GSAP enhancements)
+   ============================================================ */
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Per-character spans injected into the hero name by site.js */
+.hero__char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Scroll-progress line along the top edge */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 600;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(200, 169, 110, 0) 0%, var(--gold) 55%, var(--pop) 100%);
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* 3D tilt context for project cards (pointer-driven on desktop) */
+.project-grid { perspective: 1000px; }
+.project-card { transform-style: preserve-3d; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { display: none; }
+  .hero__char { will-change: auto; }
+}
+
+/* ============================================================
+   CERTIFICATION MODAL
+   ============================================================ */
+.cert-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.72);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.cert-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cert-modal {
+  width: min(440px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: rgba(14, 10, 5, 0.98);
+  border: 1px solid rgba(200, 169, 110, 0.3);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.7),
+    inset 0 0 40px rgba(0, 0, 0, 0.4);
+  padding: 34px 30px 30px;
+  position: relative;
+}
+
+/* Subtle film texture inside the panel */
+.cert-modal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(200, 169, 110, 0.012) 3px, rgba(200, 169, 110, 0.012) 4px);
+  pointer-events: none;
+}
+
+.cert-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: rgba(240, 232, 216, 0.5);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.cert-modal__close:hover {
+  color: var(--pop);
+  transform: scale(1.1);
+}
+
+.cert-modal__status {
+  display: inline-block;
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid currentColor;
+  margin-bottom: 14px;
+}
+
+.cert-modal__title {
+  font-family: "IM Fell English", serif;
+  font-size: 1.5rem;
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.cert-modal__issuer {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.72rem;
+  color: rgba(200, 169, 110, 0.7);
+  letter-spacing: 0.05em;
+  margin-bottom: 18px;
+}
+
+.cert-modal__desc {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.78rem;
+  color: rgba(240, 232, 216, 0.66);
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+
+.cert-modal__topics-label {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pop);
+  margin-bottom: 12px;
+}
+
+.cert-modal__topics {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.cert-modal__topics li {
+  font-family: "Courier Prime", "Courier New", monospace;
+  font-size: 0.74rem;
+  color: rgba(240, 232, 216, 0.6);
+  line-height: 1.6;
+  padding-left: 18px;
+  position: relative;
+}
+
+.cert-modal__topics li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--pop);
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-modal-overlay { transition: none; }
+}
