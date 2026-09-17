@@ -8,12 +8,16 @@
 }
 
 :root {
-  --black:  #000000;
-  --cream:  #f0e8d8;
-  --gold:   #c8a96e;
+  --black:  #050706;
+  --cream:  #f4eddf;
+  --gold:   #d6b87d;
   --dim:    rgba(200, 169, 110, 0.18);
-  --pop:      #5fc2b0;                  /* vintage teal — attention accent */
-  --pop-soft: rgba(95, 194, 176, 0.14);
+  --pop:      #65d6c2;
+  --pop-soft: rgba(101, 214, 194, 0.14);
+  --panel: rgba(14, 15, 12, 0.78);
+  --hairline: rgba(214, 184, 125, 0.2);
+  --pointer-x: 50vw;
+  --pointer-y: 28vh;
 }
 
 /* ============================================================
@@ -28,6 +32,30 @@ body {
   /* single-page site scrolls vertically; ambient layers stay fixed */
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  color: var(--cream);
+  background:
+    radial-gradient(circle at 50% -20%, rgba(214, 184, 125, 0.08), transparent 38%),
+    var(--black);
+  font-synthesis: none;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(440px circle at var(--pointer-x) var(--pointer-y), rgba(101, 214, 194, 0.055), transparent 68%);
+}
+
+::selection {
+  color: var(--black);
+  background: var(--pop);
+}
+
+:focus-visible {
+  outline: 2px solid var(--pop);
+  outline-offset: 4px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

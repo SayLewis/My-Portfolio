@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/sections.css">
   <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/performance.css">
 </head>
 
 <body>
@@ -23,6 +24,9 @@
   <!-- ══════════ FIXED AMBIENT BACKDROP ══════════ -->
   <canvas id="particles"></canvas>
   <div class="vignette"></div>
+  <div class="ambient-grid" aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb--gold" aria-hidden="true"></div>
+  <div class="ambient-orb ambient-orb--teal" aria-hidden="true"></div>
 
   <!-- Film grain (seed animated by site.js) -->
   <svg id="filmGrain" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -54,14 +58,42 @@
       <div class="line line--bottom"></div>
 
       <div class="hero__inner">
-        <p class="hero__eyebrow">portfolio</p>
-        <h1 class="hero__name">Nickell Lewis</h1>
-        <p class="hero__title">software developer &nbsp;·&nbsp; it analyst</p>
-        <p class="hero__summary">
-          Analytical and adaptable developer with hands-on experience in backend development,
-          IT support, and data analytics. Driven by curiosity, continuous learning, and
-          collaborative problem-solving.
-        </p>
+        <div class="hero__copy">
+          <p class="hero__eyebrow"><span></span> portfolio &middot; 2026</p>
+          <h1 class="hero__name">Nickell Lewis</h1>
+          <p class="hero__title">I build reliable systems that make complex work feel simple.</p>
+          <p class="hero__summary">
+            Software developer and IT analyst blending backend engineering, automation,
+            support, and data thinking to create tools people can trust.
+          </p>
+          <div class="hero__actions">
+            <a class="button button--primary" href="#work">Explore my work <span aria-hidden="true">&#8599;</span></a>
+            <a class="button button--ghost" href="assets/docs/Nickell_Lewis_Resume.pdf" target="_blank" rel="noopener noreferrer">View r&eacute;sum&eacute;</a>
+          </div>
+        </div>
+
+        <div class="hero__visual" aria-label="Portrait of Nickell Lewis">
+          <div class="hero__portrait-halo" aria-hidden="true"></div>
+          <button class="hero__portrait-card" id="photoGalleryOpen" type="button" aria-haspopup="dialog" aria-controls="photoGallery" aria-label="Open Nickell's photo reel">
+            <img src="assets/images/profile.jpg" alt="Nickell Lewis smiling in graduation attire" fetchpriority="high">
+            <span class="hero__portrait-caption" aria-hidden="true">
+              <span>San Fernando</span>
+              <span>Trinidad &amp; Tobago</span>
+            </span>
+            <span class="hero__portrait-action" aria-hidden="true">
+              <strong>View photo reel</strong>
+              <small>Click to explore &middot; 3 frames</small>
+            </span>
+          </button>
+          <div class="hero__status"><i aria-hidden="true"></i> Open to collaboration</div>
+          <div class="hero__monogram" aria-hidden="true">NL</div>
+        </div>
+      </div>
+
+      <div class="hero__proof" aria-label="Selected career highlights">
+        <div><strong>90%</strong><span>student pass rate</span></div>
+        <div><strong>60%</strong><span>faster IT onboarding</span></div>
+        <div><strong>BSc</strong><span>computer science + statistics</span></div>
       </div>
 
       <div class="hero__scroll" aria-hidden="true">
@@ -71,7 +103,7 @@
     </section>
 
     <!-- ══════════════ EDUCATION ══════════════ -->
-    <p class="section-label" id="about">education</p>
+    <p class="section-label" id="about"><span>01</span> education</p>
 
     <div class="timeline">
       <div class="timeline__spine"></div>
@@ -108,7 +140,7 @@
     </div>
 
     <!-- ══════════════ EXPERIENCE ══════════════ -->
-    <p class="section-label">experience</p>
+    <p class="section-label"><span>02</span> experience</p>
 
     <div class="timeline">
       <div class="timeline__spine"></div>
@@ -207,35 +239,40 @@
     </div>
 
     <!-- ══════════════ PROJECTS ══════════════ -->
-    <p class="section-label" id="work">projects</p>
+    <p class="section-label" id="work"><span>03</span> selected projects</p>
 
     <div class="project-grid">
-      <article class="project-card" data-project>
+      <article class="project-card" data-project="helpnahman" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="projectModal" aria-label="Preview Help Nah Man">
+        <img class="project-card__cover" src="assets/img/help-nah-man.jpg" alt="Help Nah Man — Community help starts here" width="1734" height="907" loading="lazy" decoding="async">
         <div class="project-card__index">01</div>
-        <h3 class="project-card__title">Recipe &amp; Inventory App</h3>
-        <p class="project-card__desc">A full-featured Flask web app for managing recipes with live inventory tracking and a dynamic, responsive interface.</p>
-        <div class="project-card__tags"><span>Flask</span><span>Python</span><span>Jinja2</span><span>SQL</span></div>
+        <h3 class="project-card__title">Help Nah Man</h3>
+        <p class="project-card__desc">A community noticeboard connecting Trinidad and Tobago with ways to volunteer, attend local events, and support donation drives.</p>
+        <div class="project-card__tags"><span>JavaScript</span><span>HTML / CSS</span><span>Local storage</span><span>Responsive</span></div>
+        <span class="project-card__open">Preview project <i aria-hidden="true">&#8599;</i></span>
       </article>
 
-      <article class="project-card" data-project>
+      <article class="project-card" data-project="motionscope" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="projectModal" aria-label="Preview MotionScope">
         <div class="project-card__index">02</div>
-        <h3 class="project-card__title">Automated Windows Installer</h3>
-        <p class="project-card__desc">A bootable, fully automated Windows deployment that cut device onboarding time by <span class="pop">60%</span> during my CEPEP internship.</p>
-        <div class="project-card__tags"><span>Windows</span><span>Automation</span><span>Scripting</span><span>IT Ops</span></div>
+        <h3 class="project-card__title">MotionScope</h3>
+        <p class="project-card__desc">An ethical website-analysis studio that maps browser-rendered evidence and generates original, sandboxed learning recreations.</p>
+        <div class="project-card__tags"><span>React</span><span>TypeScript</span><span>Playwright</span><span>Express</span></div>
+        <span class="project-card__open">Preview project <i aria-hidden="true">&#8599;</i></span>
       </article>
 
-      <article class="project-card" data-project>
+      <article class="project-card" data-project="hrizons" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="projectModal" aria-label="Preview HRIZONS Company Website">
         <div class="project-card__index">03</div>
         <h3 class="project-card__title">Company Website</h3>
         <p class="project-card__desc">Designed and built the company website for HRIZONS Caribbean Limited &mdash; a clean, responsive online presence.</p>
         <div class="project-card__tags"><span>HTML / CSS</span><span>JavaScript</span><span>Responsive</span><span>Web Design</span></div>
+        <span class="project-card__open">Preview project <i aria-hidden="true">&#8599;</i></span>
       </article>
 
-      <article class="project-card" data-project>
+      <article class="project-card" data-project="automation" tabindex="0" role="button" aria-haspopup="dialog" aria-controls="projectModal" aria-label="Preview API Automation Scripts">
         <div class="project-card__index">04</div>
         <h3 class="project-card__title">API Automation Scripts</h3>
         <p class="project-card__desc">A growing toolkit of Python scripts that tap into external APIs to automate everyday tasks and improve quality of life.</p>
         <div class="project-card__tags"><span>Python</span><span>REST APIs</span><span>Automation</span><span>Scripting</span></div>
+        <span class="project-card__open">Preview project <i aria-hidden="true">&#8599;</i></span>
       </article>
     </div>
 
@@ -244,21 +281,24 @@
     </div>
 
     <!-- ══════════════ CERTIFICATIONS ══════════════ -->
-    <p class="section-label">certifications</p>
+    <p class="section-label"><span>04</span> certifications</p>
 
     <div class="skills-section" style="padding-bottom: 0;">
       <div class="skills-grid">
         <button class="skill-tag skill-tag--cert" type="button" data-skill data-cert="itil" aria-haspopup="dialog">
           ITIL 4 Foundation <span class="cert-status cert-status--done">Completed</span>
         </button>
-        <button class="skill-tag skill-tag--cert" type="button" data-skill data-cert="ab900" aria-haspopup="dialog">
-          Microsoft AB-900 <span class="cert-status cert-status--wip">In Progress</span>
+        <button class="skill-tag skill-tag--cert cert-earned" type="button" data-skill data-cert="ab900" aria-haspopup="dialog">
+          <span class="cert-emblem" aria-hidden="true">&#10003;</span><span>Microsoft AB-900<br><small>Copilot &amp; Agent Administration Fundamentals</small></span> <span class="cert-status cert-status--done">Earned</span>
+        </button>
+        <button class="skill-tag skill-tag--cert cert-learning" type="button" data-skill data-cert="md102" aria-haspopup="dialog">
+          <span class="cert-emblem" aria-hidden="true">MD</span><span>Microsoft MD-102<br><small>Endpoint Administrator Associate</small></span> <span class="cert-status cert-status--wip">In Progress</span>
         </button>
       </div>
     </div>
 
     <!-- ══════════════ SKILLS ══════════════ -->
-    <p class="section-label">skills</p>
+    <p class="section-label"><span>05</span> toolkit</p>
 
     <div class="skills-section">
       <div class="skills-grid">
@@ -284,21 +324,83 @@
 
     <!-- ══════════════ CONTACT ══════════════ -->
     <section id="contact" class="contact">
-      <p class="section-label" style="padding-bottom: 30px;">contact</p>
-      <h2 class="contact__headline" data-reveal>Let&rsquo;s build something.</h2>
-      <p class="contact__sub" data-reveal>Open to opportunities in software development, IT support, and data analytics.</p>
+      <p class="section-label"><span>06</span> contact</p>
+      <p class="contact__eyebrow" data-reveal>Have a hard problem?</p>
+      <h2 class="contact__headline" data-reveal>Let&rsquo;s make it feel <em>simple.</em></h2>
+      <p class="contact__sub" data-reveal>Open to thoughtful opportunities in software development, IT support, automation, and data analytics.</p>
       <div class="contact__links" data-reveal>
         <a href="mailto:nickelllewis1@gmail.com">Email</a>
         <a href="https://github.com/SayLewis" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://www.linkedin.com/in/nickell-lewis-52aa3b282/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="/assets/docs/Nickell_Lewis_Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute;</a>
+        <a href="assets/docs/Nickell_Lewis_Resume.pdf" target="_blank" rel="noopener noreferrer">R&eacute;sum&eacute;</a>
       </div>
       <p class="contact__loc" data-reveal>San Fernando &middot; Trinidad &amp; Tobago</p>
     </section>
 
-    <footer class="site-footer">&copy; 2025 Nickell Lewis</footer>
+    <footer class="site-footer"><span>&copy; 2026 Nickell Lewis</span><span>Designed with intent in Trinidad &amp; Tobago</span></footer>
 
   </main>
+
+  <!-- Project preview / case study -->
+  <div class="project-modal-overlay" id="projectModal" aria-hidden="true">
+    <div class="project-modal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+      <button class="project-modal__close" id="projectModalClose" type="button" aria-label="Close project preview">&times;</button>
+
+      <div class="project-modal__visual" id="projectModalVisual" aria-hidden="true"></div>
+
+      <div class="project-modal__details">
+        <div class="project-modal__eyebrow">
+          <span id="projectModalIndex">01</span>
+          <span id="projectModalType">Full-stack build</span>
+        </div>
+        <h2 id="projectModalTitle"></h2>
+        <p class="project-modal__summary" id="projectModalSummary"></p>
+
+        <div class="project-modal__meta" id="projectModalMeta"></div>
+
+        <div class="project-modal__section">
+          <span class="project-modal__label">What it demonstrates</span>
+          <ul id="projectModalHighlights"></ul>
+        </div>
+
+        <div class="project-modal__stack" id="projectModalStack"></div>
+
+        <div class="project-modal__actions">
+          <a class="button button--primary" id="projectModalVisit" href="#" target="_blank" rel="noopener noreferrer">Open project <span aria-hidden="true">&#8599;</span></a>
+          <button class="button button--ghost" id="projectModalBack" type="button">Back to portfolio</button>
+        </div>
+        <p class="project-modal__note" id="projectModalNote"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal photo reel -->
+  <div class="photo-gallery" id="photoGallery" aria-hidden="true">
+    <div class="photo-gallery__dialog" role="dialog" aria-modal="true" aria-labelledby="photoGalleryTitle">
+      <button class="photo-gallery__close" id="photoGalleryClose" type="button" aria-label="Close photo reel">&times;</button>
+
+      <div class="photo-gallery__stage">
+        <div class="photo-gallery__image-wrap">
+          <img id="photoGalleryImage" src="assets/images/profile.jpg" alt="">
+          <div class="photo-gallery__grain" aria-hidden="true"></div>
+          <span class="photo-gallery__stamp" id="photoGalleryStamp" aria-hidden="true">NL / 01</span>
+        </div>
+
+        <button class="photo-gallery__arrow photo-gallery__arrow--prev" id="photoGalleryPrev" type="button" aria-label="Previous photo">&#8592;</button>
+        <button class="photo-gallery__arrow photo-gallery__arrow--next" id="photoGalleryNext" type="button" aria-label="Next photo">&#8594;</button>
+      </div>
+
+      <div class="photo-gallery__copy" aria-live="polite">
+        <div class="photo-gallery__meta">
+          <span id="photoGalleryLabel">Portrait / 01</span>
+          <span id="photoGalleryCount">01 &mdash; 03</span>
+        </div>
+        <h2 id="photoGalleryTitle">A proud finish.</h2>
+        <p id="photoGalleryStory"></p>
+        <div class="photo-gallery__dots" id="photoGalleryDots" aria-label="Choose a photo"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- Certification detail modal -->
   <div class="cert-modal-overlay" id="certModal" aria-hidden="true">
@@ -308,8 +410,14 @@
       <h3 class="cert-modal__title" id="certModalTitle"></h3>
       <div class="cert-modal__issuer" id="certModalIssuer"></div>
       <p class="cert-modal__desc" id="certModalDesc"></p>
+      <div class="cert-modal__credential">
+        <div><span>Credential</span><strong id="certModalCredential"></strong></div>
+        <div><span>Record</span><strong id="certModalRecord"></strong></div>
+      </div>
       <div class="cert-modal__topics-label">Key topics</div>
+      <div id="certExtra"></div>
       <ul class="cert-modal__topics" id="certModalTopics"></ul>
+      <a class="cert-modal__verify" id="certModalVerify" href="#" target="_blank" rel="noopener noreferrer">View credential source &#8599;</a>
     </div>
   </div>
 

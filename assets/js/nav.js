@@ -6,17 +6,17 @@
 const PROFILE = {
   name: 'Nickell Lewis',
   initials: 'NL',
-  title: 'IT Support Analyst',
-  bio: 'I Hate Copilot Studio',
+  title: 'Developer · IT Support Analyst',
+  bio: 'Building useful systems where software, automation, and people meet.',
   location: 'San Fernando, TT',
-  photo: '/assets/images/profile-avatar.jpg',   // small avatar asset for faster loading
+  photo: 'assets/images/profile-avatar.jpg',   // works from both local preview and deployed root
   links: [
     { label: 'Email',     href: 'mailto:nickelllewis1@gmail.com',                          icon: 'email'     },
     { label: 'GitHub',    href: 'https://github.com/SayLewis',                             icon: 'github'    },
     { label: 'LinkedIn',  href: 'https://www.linkedin.com/in/nickell-lewis-52aa3b282/',    icon: 'linkedin'  },
     { label: 'X',         href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=5s',       icon: 'x'         },
     { label: 'Instagram', href: 'https://instagram.com/say_lewis',                         icon: 'instagram' },
-    { label: 'Resume',    href: '/assets/docs/Nickell_Lewis_Resume.pdf',                   icon: 'resume'    },
+    { label: 'Resume',    href: 'assets/docs/Nickell_Lewis_Resume.pdf',                    icon: 'resume'    },
   ],
 };
 const navReduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -89,10 +89,10 @@ function buildNav() {
 
     <!-- Bottom nav bar -->
     <nav class="nav-bar" id="navBar">
-      <div class="nav-item ${active === 'home' ? 'active' : ''}" data-page="home">Home</div>
-      <div class="nav-item ${active === 'work' ? 'active' : ''}" data-page="work">Work</div>
-      <div class="nav-item ${active === 'about' ? 'active' : ''}" data-page="about">About</div>
-      <div class="nav-avatar" id="navAvatarBtn" title="About">${avatarHTML('small')}</div>
+      <button class="nav-item ${active === 'home' ? 'active' : ''}" type="button" data-page="home">Home</button>
+      <button class="nav-item ${active === 'work' ? 'active' : ''}" type="button" data-page="work">Work</button>
+      <button class="nav-item ${active === 'about' ? 'active' : ''}" type="button" data-page="about">About</button>
+      <button class="nav-avatar" id="navAvatarBtn" type="button" title="Open profile" aria-label="Open profile card">${avatarHTML('small')}</button>
     </nav>
   `;
 

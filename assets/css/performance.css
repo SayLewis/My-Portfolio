@@ -1,0 +1,63 @@
+/* Help Nah Man: lightweight excerpts, no embedded application or animation. */
+.project-card__cover { display: block; width: 100%; height: auto; aspect-ratio: 1734 / 907; object-fit: cover; margin-bottom: 24px; border-radius: 4px; }
+.project-modal__visual--helpnahman { background: #153f33; }
+.preview-help { padding: clamp(18px, 3vw, 32px); background: #f7f2e8; color: #17241e; font-family: Arial, sans-serif; text-align: left; }
+.preview-help__brand { font: 700 22px Georgia, serif; color: #153f33; }
+.preview-help__brand span { display: block; margin-top: 5px; font: 12px Arial, sans-serif; }
+.preview-help h3 { margin: 24px 0 12px; font: 400 clamp(25px, 3vw, 36px)/1.08 Georgia, serif; color: #153f33; }
+.preview-help h3 em { color: #a43b2a; }
+.preview-help p { font: 14px/1.5 Arial, sans-serif; color: #394d41; }
+.preview-help__types { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.preview-help__types span { padding: 7px 10px; border: 1px solid #b7c7ba; border-radius: 16px; font-size: 12px; }
+.preview-help h4 { font: 600 21px Georgia, serif; margin: 18px 0 10px; }
+.preview-help__notice { padding: 13px 0; border-top: 1px solid #d9d2c5; }
+.preview-help__notice small { display: block; margin-bottom: 6px; font-size: 11px; color: #394d41; }
+.preview-help__notice strong { font: 600 17px/1.25 Georgia, serif; }
+.preview-help .preview-help__caption { margin-top: 12px; font-size: 11px; }
+#projectModalVisit[hidden] { display: none; }
+
+/* Keep the lacquer palette without continuously repainting the viewport. */
+#particles, #filmGrain, .scanlines, .ambient-orb, .vignette,
+body::before, .hero__portrait-halo { display: none; }
+
+.tl-card, .project-card, .nav-bar, .profile-card, .hero__status,
+.cert-modal-overlay, .project-modal-overlay, .photo-gallery,
+.photo-gallery__arrow {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.nav-bar { background: #0b0e0c; }
+.cert-modal-overlay, .project-modal-overlay, .photo-gallery {
+  background: rgba(5, 7, 6, .97);
+}
+.project-grid { perspective: none; }
+.project-card { transform-style: flat; transition: border-color .2s ease; }
+.corner, .line, .hero__char, .profile-card { will-change: auto; }
+.corner { opacity: 1; }
+.line { opacity: 1; transform: translateX(-50%) scaleX(1); }
+.photo-gallery__image-wrap img { transition: opacity .18s ease, transform .35s ease; }
+.hero__status i { animation: none; }
+
+/* Native scroll progress avoids a JavaScript scroll scrub on every frame. */
+.scroll-progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    transform-origin: left center;
+    animation: page-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+  @keyframes page-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+}
+
+/* Touch devices use static content and retain direct, responsive interactions. */
+@media (max-width: 768px), (pointer: coarse) {
+  .ambient-grid { display: none; }
+  .hero__portrait-card img { filter: none; }
+  .project-card:hover { transform: none; }
+  .tl-card, .project-card { box-shadow: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; }
+  .photo-gallery__image-wrap img { transition: none; }
+}
