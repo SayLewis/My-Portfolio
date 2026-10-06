@@ -196,9 +196,9 @@ const PROJECTS = {
     highlights: ['Controlled Playwright capture with URL safeguards', 'Evidence-backed technology and motion signals', 'Three authored recreation directions with sandboxed previews'],
     stack: ['React', 'TypeScript', 'Express', 'Playwright'],
     theme: 'motionscope',
-    url: 'http://127.0.0.1:4173/',
+    url: null,   // no public deployment yet - set this to the live URL to re-enable the button
     visitLabel: 'Launch MotionScope',
-    note: 'MotionScope runs locally from its project folder; start the app before launching it here.',
+    note: 'MotionScope currently runs locally from its project folder and has no public deployment yet; the preview above covers what it does and how it is built.',
   },
   hrizons: {
     index: '03',

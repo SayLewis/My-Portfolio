@@ -7,14 +7,14 @@ const PROFILE = {
   name: 'Nickell Lewis',
   initials: 'NL',
   title: 'Developer · IT Support Analyst',
-  bio: 'Building useful systems where software, automation, and people meet.',
+  bio: 'Building useful systems where software, automation, and people meet \u2014 working toward frontier engineering.',
   location: 'San Fernando, TT',
   photo: 'assets/images/profile-avatar.jpg',   // works from both local preview and deployed root
   links: [
     { label: 'Email',     href: 'mailto:nickelllewis1@gmail.com',                          icon: 'email'     },
     { label: 'GitHub',    href: 'https://github.com/SayLewis',                             icon: 'github'    },
     { label: 'LinkedIn',  href: 'https://www.linkedin.com/in/nickell-lewis-52aa3b282/',    icon: 'linkedin'  },
-    { label: 'X',         href: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=5s',       icon: 'x'         },
+    // { label: 'X',      href: 'https://x.com/<your-handle>',                           icon: 'x'         },  // add your real handle to re-enable
     { label: 'Instagram', href: 'https://instagram.com/say_lewis',                         icon: 'instagram' },
     { label: 'Resume',    href: 'assets/docs/Nickell_Lewis_Resume.pdf',                    icon: 'resume'    },
   ],
